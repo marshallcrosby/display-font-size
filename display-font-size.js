@@ -1,11 +1,20 @@
-﻿window.addEventListener('DOMContentLoaded', function () {
-    let displayFontSize = document.querySelectorAll('.display-font-size');
+﻿/*!
+    * Display Font Sizes v1.0.0
+    * Plugin that makes it easy to render display font sizes.
+    *
+    * Copyright 2021-2022 Marshall Crosby
+    * https://marshallcrosby.com
+*/
 
-    if (displayFontSize) {
+window.addEventListener('DOMContentLoaded', () => {
+    let fontSizeAttribute = `data-display-fs`;
+    let displayFontSize = document.querySelectorAll(`[${fontSizeAttribute}]`);
+
+    if (displayFontSize.length) {
         assignFontSize(displayFontSize);
 
         // Position buttons after resize
-        window.addEventListener('resize', debounce( () => {
+        window.addEventListener('resize', debounce(() => {
             assignFontSize(displayFontSize);
         }));
 
@@ -17,6 +26,7 @@
                 let fontSize = Math.floor(parseInt(window.getComputedStyle(el[index], null).getPropertyValue('font-size').split('px').join('')));
 
                 el[index].innerHTML = textReset + ' [' + fontSize + 'px]';
+                el[index].removeAttribute('data-display-fs');
             }
         }
 
@@ -28,7 +38,7 @@
                 if (timer) {
                     clearTimeout(timer);
                 }
-                timer = setTimeout(func, 1000, event);
+                timer = setTimeout(func, 300, event);
             };
         }
     }
